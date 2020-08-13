@@ -3,6 +3,9 @@ VERSION := $(shell cat version)
 
 PYTHON ?= python3
 
+# On SUSE, lrelease for Qt4 is simply named lrelease
+LRELEASE ?= $(firstword $(wildcard /usr/bin/lrelease-qt4 /usr/bin/lrelease))
+
 help:
 	@echo "make rpms                  -- generate binary rpm packages"
 	@echo "make res                   -- compile resources"
@@ -28,7 +31,7 @@ res:
 	pyrcc4 -py3 -o qubesmanager/resources_rc.py resources.qrc
 
 translations:
-	lrelease-qt4 qubesmanager.pro
+	$(LRELEASE) qubesmanager.pro
 
 python:
 	$(PYTHON) ./setup.py build
